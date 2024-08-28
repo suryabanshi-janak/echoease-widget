@@ -6,6 +6,7 @@ import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { cn } from '@/lib/utils';
+import tailwindStyles from '../index.css?inline';
 
 export default function Widget() {
   const [rating, setRating] = useState(5);
@@ -18,12 +19,19 @@ export default function Widget() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
-    console.log('🚀 ~ onSubmit ~ form:', form);
+    const data = {
+      name: form.name.value,
+      email: form.email.value,
+      feedback: form.feedback.value,
+      rating,
+    };
+    console.log(data);
     setSubmitted(true);
   };
 
   return (
     <>
+      <style>{tailwindStyles}</style>
       <div className='fixed z-50 widget bottom-4 right-4'>
         <Popover>
           <PopoverTrigger asChild>
@@ -37,6 +45,7 @@ export default function Widget() {
             className='w-full max-w-md p-4 rounded-lg widget bg-card shadpw-lg'
             align='end'
           >
+            <style>{tailwindStyles}</style>
             {submitted ? (
               <div>
                 <h3 className='text-lg font-bold'>

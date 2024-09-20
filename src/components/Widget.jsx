@@ -7,8 +7,10 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { cn } from '@/lib/utils';
 import tailwindStyles from '../index.css?inline';
+import supabase from '@/supabaseClient';
 
-export default function Widget() {
+// eslint-disable-next-line react/prop-types
+export default function Widget({ projectId }) {
   const [rating, setRating] = useState(5);
   const [submitted, setSubmitted] = useState(false);
 
@@ -20,12 +22,14 @@ export default function Widget() {
     e.preventDefault();
     const form = e.target;
     const data = {
-      name: form.name.value,
-      email: form.email.value,
-      feedback: form.feedback.value,
-      rating,
+      p_project_id: projectId,
+      p_user_name: form.name.value,
+      p_user_email: form.email.value,
+      p_message: form.feedback.value,
+      p_rating: rating,
     };
-    console.log(data);
+    const { data: returnedData } = await supabase.rpc('add_feedback', data);
+    console.log('🚀 ~ onSubmit ~ returnedData:', returnedData);
     setSubmitted(true);
   };
 
